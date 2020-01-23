@@ -1,13 +1,10 @@
-import  React  from "react";
+import React from "react";
 import {hot} from "react-hot-loader";
+import Initial from "./components/Initial";
 
-class App extends React.Component{
+class App extends React.Component {
     render = () => {
-        return(
-            <div className="App">
-                <h1> Hello, World!</h1>
-            </div>
-        );
+        return (<Initial/>);
     }
 }
 
