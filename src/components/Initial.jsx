@@ -5,14 +5,22 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Button from "react-bootstrap/Button";
+import Reserved from "./Reserved";
 
 class Initial extends React.Component {
-    render = () => {
+
+    constructor(props) {
+        super(props);
+
+        this.reserved = React.createRef();
+    }
+
+    render() {
         return (
             <React.Fragment>
                 <Navbar bg={"light"} className="boxShadow-default" expand="lg">
                     <Navbar.Brand href="#home">Reserved-prototype</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
                             <Nav.Link href="#home">Home</Nav.Link>
@@ -21,7 +29,7 @@ class Initial extends React.Component {
                                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                                <NavDropdown.Divider />
+                                <NavDropdown.Divider/>
                                 <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
@@ -32,13 +40,17 @@ class Initial extends React.Component {
                     <Jumbotron className="mt-5 boxShadow-default">
                         <h1>Hello!</h1>
                         <p>
-                            This is a prototype for testing the Reserved Appointment Module. Click on the button to test out the functionality!
+                            This is a prototype for testing the Reserved Appointment Module. Click on the button to test
+                            out the functionality!
                         </p>
                         <p>
-                            <Button onClick={this.openReserved} variant="primary">Make an appointment</Button>
+                            <Button onClick={() => {
+                                this.reserved.current.toggleReserved()
+                            }} variant="primary">Make an appointment</Button>
                         </p>
                     </Jumbotron>
                 </Container>
+                <Reserved ref={this.reserved}/>
             </React.Fragment>
         )
     }
