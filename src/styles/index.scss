@@ -1,26 +1,17 @@
 @import "overrides";
+@import "modal";
 
-@include media-breakpoint-up(sm) {
-  .modal-dialog {
-    max-width: 100%;
-  }
+.boxShadow-default {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
-.modal-dialog {
-  margin: unset;
-  padding: 1em;
-  height: 100%;
-}
+.selectedTreatment {
+  display: inline-block;
+  background-color: $blue;
+  color: $white;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  position: relative;
 
-.modal-content {
-  height: 100%;
-}
-
-.modal-body {
-  max-height: calc(100vh - 173px);
-  overflow-y: auto;
-}
-
-.boxShadow-default{
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  &:hover
 }

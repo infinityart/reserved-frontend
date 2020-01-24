@@ -1,0 +1,20 @@
+@include media-breakpoint-up(sm) {
+  .modal-dialog {
+    max-width: 100%;
+  }
+}
+
+.modal-dialog {
+  margin: unset;
+  padding: 1em;
+  height: 100%;
+}
+
+.modal-content {
+  height: 100%;
+}
+
+.modal-body {
+  max-height: calc(100vh - 173px);
+  overflow-y: auto;
+}
