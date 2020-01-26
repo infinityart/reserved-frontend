@@ -1,4 +1,9 @@
+@import 'variables';
+
 // Override default variables before the import
+$modal-content-bg: $gray;
+$jumbotron-bg: $white;
+$body-bg: $gray;
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';

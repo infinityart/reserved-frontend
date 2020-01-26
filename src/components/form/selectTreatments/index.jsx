@@ -19,7 +19,7 @@ class Index extends React.Component {
     }
 
     getTreatmentList() {
-        fetch('http://reserved-backend.test/treatments')
+        fetch(`${APIEndpoint}/treatments`)
             .then((response) => {
                 return response.json();
             })
@@ -44,14 +44,14 @@ class Index extends React.Component {
 
         let selectedTreatments = treatments.filter(treatment => treatment.selected);
 
-        this.setState({treatments});
+        this.setState({treatments, showAlert: false});
         this.props.setData('selectedTreatments', selectedTreatments);
     }
 
     nextStep = () => {
-        let nextStep = this.state.treatments.some( treatment => treatment.selected);
+        let nextStep = this.state.treatments.some(treatment => treatment.selected);
 
-        if(nextStep) {
+        if (nextStep) {
             this.props.nextStep();
         } else {
             this.setState({showAlert: true})
@@ -68,38 +68,36 @@ class Index extends React.Component {
                         <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
                         <p>Er moet een behandeling gekozen zijn.</p>
                     </Alert>
-                : null}
-                <Form>
-                    <h1 className={"text-center m-0 mt-2"}>Kies de behandelingen</h1>
-                    <div className="selectTreatmentsContainer">
-                        <div className="selectTreatments">
-                            {this.state.treatments.map((treatment, idx) => {
-                                if (treatment.selected) return;
-
-                                return <p onClick={() => {
-                                    this.handleSelectedTreatment(treatment)
-                                }} key={idx}>{`${treatment.name} (${treatment.duration})`}</p>
-                            })}
-                        </div>
-                    </div>
-                    <h2 className={"text-center m-0"}>Gekozen behandelingen</h2>
-                    <div className="selectedTreatments">
+                    : null}
+                <h1 className={"text-center m-0 mt-2"}>Kies de behandelingen</h1>
+                <div className="selectTreatmentsContainer">
+                    <div className="selectTreatments">
                         {this.state.treatments.map((treatment, idx) => {
-                            if (!treatment.selected) return;
+                            if (treatment.selected) return;
 
-                            return (
-                                <div onClick={() => {
-                                    this.handleSelectedTreatment(treatment)
-                                }} className="selectedTreatment" key={idx}>
-                                    {`${treatment.name} (${treatment.duration})`}
-                                </div>
-                            );
+                            return <p onClick={() => {
+                                this.handleSelectedTreatment(treatment)
+                            }} key={idx}>{`${treatment.name} (${treatment.duration})`}</p>
                         })}
                     </div>
-                    <div className="formStepControls">
-                        <Button onClick={this.nextStep} variant="primary">Volgende</Button>
-                    </div>
-                </Form>
+                </div>
+                <h2 className={"text-center m-0"}>Gekozen behandelingen</h2>
+                <div className="selectedTreatments">
+                    {this.state.treatments.map((treatment, idx) => {
+                        if (!treatment.selected) return;
+
+                        return (
+                            <div onClick={() => {
+                                this.handleSelectedTreatment(treatment)
+                            }} className="selectedTreatment" key={idx}>
+                                {`${treatment.name} (${treatment.duration})`}
+                            </div>
+                        );
+                    })}
+                </div>
+                <div className="formStepControls">
+                    <Button onClick={this.nextStep} variant="primary">Volgende</Button>
+                </div>
             </React.Fragment>
         );
     }

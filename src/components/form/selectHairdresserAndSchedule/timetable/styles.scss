@@ -1,0 +1,34 @@
+@import "../../../../styles/variables";
+@import "../../../../styles/overrides";
+
+.timetable {
+  display: flex;
+  flex-flow: wrap;
+  margin: 1em;
+
+  .time {
+    padding: 0.25em 0.5em;
+    border-radius: 10em;
+    background-color: darken($gray, 10%);
+    margin: 0.25em;
+    border: 2px solid $gray;
+
+    &:hover {
+      cursor: pointer;
+      border: 2px solid $blue;
+      background-color: darken($gray, 30%);
+    }
+
+    &.unavailable {
+      background-color: $red;
+
+      &:hover{
+        background-color: darken($red, 30%);
+      }
+    }
+
+    &.selected {
+      border: 2px solid $blue;
+    }
+  }
+}

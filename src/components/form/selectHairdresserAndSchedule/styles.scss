@@ -1,0 +1,82 @@
+@import "../../../styles/variables";
+@import "../../../styles/overrides";
+
+.appointment {
+  display: flex;
+  justify-content: center;
+  margin: 2em;
+
+  .hairdressers {
+    .hairdresser {
+      display: flex;
+      border: $basicBorder;
+      border-top-left-radius: $borderRadius;
+      border-bottom-left-radius: $borderRadius;
+
+      &:hover {
+        cursor: pointer;
+        filter: brightness(0.8);
+        border-color: $blue;
+      }
+
+      &.selected {
+        border-color: $blue;
+      }
+
+      &.unavailable {
+        .name {
+          background-color: $red;
+        }
+      }
+
+      .avatarContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $blue;
+        min-width: 60px;
+        min-height: 60px;
+        border-top-left-radius: $borderRadius;
+        border-bottom-left-radius: $borderRadius;
+
+        .avatar {
+          width: 50px;
+          height: 50px;
+          border-radius: 10em;
+          background-color: $gray;
+        }
+      }
+
+      .name {
+        display: flex;
+        align-items: center;
+        background-color: $gray;
+        width: 100%;
+        padding: 0 1em;
+      }
+
+    }
+  }
+
+  .calendar {
+    min-width: 300px;
+    background-color: $gray;
+    border: $basicBorder;
+
+    .dateSelection {
+      border-bottom: $basicBorder;
+
+      > div {
+        padding: 1.25em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        svg {
+          font-size: 24px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

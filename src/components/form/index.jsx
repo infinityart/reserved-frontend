@@ -44,8 +44,10 @@ class StepSelector extends React.Component {
 
         return (
             <React.Fragment>
-            <SelectTreatments display={this.state.step === 0} {...props} />
-            <AppointmentSelector display={this.state.step === 1} {...props} />
+                <form>
+                    <SelectTreatments display={this.state.step === 0} {...props} />
+                    <AppointmentSelector display={this.state.step === 1} {...props} />
+                </form>
             </React.Fragment>
         )
     }
