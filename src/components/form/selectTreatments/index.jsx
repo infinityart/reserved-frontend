@@ -1,6 +1,8 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 import './styles.scss';
+import Button from "react-bootstrap/Button";
+import Alert from 'react-bootstrap/Alert'
 
 class Index extends React.Component {
     constructor(props) {
@@ -8,6 +10,7 @@ class Index extends React.Component {
 
         this.state = {
             treatments: [],
+            showAlert: false
         }
     }
 
@@ -39,15 +42,33 @@ class Index extends React.Component {
                 : treatment
         );
 
-        let selectedTreatments = treatments.filter( treatment => treatment.selected );
+        let selectedTreatments = treatments.filter(treatment => treatment.selected);
 
         this.setState({treatments});
         this.props.setData('selectedTreatments', selectedTreatments);
     }
 
+    nextStep = () => {
+        let nextStep = this.state.treatments.some( treatment => treatment.selected);
+
+        if(nextStep) {
+            this.props.nextStep();
+        } else {
+            this.setState({showAlert: true})
+        }
+    };
+
     render() {
+        if (!this.props.display) return <React.Fragment/>;
+
         return (
             <React.Fragment>
+                {this.state.showAlert ?
+                    <Alert variant="danger" onClose={() => this.setState({showAlert: false})} dismissible>
+                        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                        <p>Er moet een behandeling gekozen zijn.</p>
+                    </Alert>
+                : null}
                 <Form>
                     <h1 className={"text-center m-0 mt-2"}>Kies de behandelingen</h1>
                     <div className="selectTreatmentsContainer">
@@ -74,6 +95,9 @@ class Index extends React.Component {
                                 </div>
                             );
                         })}
+                    </div>
+                    <div className="formStepControls">
+                        <Button onClick={this.nextStep} variant="primary">Volgende</Button>
                     </div>
                 </Form>
             </React.Fragment>

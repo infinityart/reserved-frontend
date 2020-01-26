@@ -2,8 +2,10 @@ import React from "react";
 import SelectTreatments from "./selectTreatments";
 import Button from "react-bootstrap/Button";
 import './styles.scss';
+import AppointmentSelector from "./selectHairdresserAndSchedule";
 
 const INITIAL_STEP = 0;
+const SECOND_STEP = 1;
 
 class StepSelector extends React.Component {
 
@@ -34,32 +36,19 @@ class StepSelector extends React.Component {
     };
 
     render() {
-        let formStep;
-
-        switch (this.state.step) {
-            case INITIAL_STEP:
-                formStep = <SelectTreatments setData={this.setData}/>;
-                break;
-            default:
-                formStep = null;
-                break;
-        }
+        const props = {
+            nextStep: this.nextStep,
+            previousStep: this.previousStep,
+            setData: this.setData
+        };
 
         return (
             <React.Fragment>
-                {formStep}
-                <div className="formStepControls">
-                    {this.state.step != 0 ?
-                        <Button onClick={this.previousStep} variant="outline-primary">Vorige</Button>
-                        : null}
-
-                    <Button onClick={this.nextStep} variant="primary">Volgende</Button>
-                </div>
+            <SelectTreatments display={this.state.step === 0} {...props} />
+            <AppointmentSelector display={this.state.step === 1} {...props} />
             </React.Fragment>
         )
-
     }
-
 }
 
 export default StepSelector;
