@@ -1,6 +1,6 @@
 import React from "react";
 import ReservedLayout from "./ReservedLayout";
-import StepSelector from "./form/StepSelector";
+import StepSelector from "./form";
 
 class Reserved extends React.Component {
     constructor(props) {
@@ -8,7 +8,6 @@ class Reserved extends React.Component {
 
         this.state = {
             showReserved: false,
-            step: 0
         }
     }
 
@@ -19,7 +18,7 @@ class Reserved extends React.Component {
 
         return (
             <ReservedLayout showReserved={this.showReserved} toggleReserved={this.toggleReserved}>
-                <StepSelector currentStep={this.state.step} />
+                <StepSelector />
             </ReservedLayout>
         );
     }

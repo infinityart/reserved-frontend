@@ -1,0 +1,13 @@
+@import 'overrides';
+@import "variables";
+
+.boxShadow-default {
+  box-shadow: $basicBoxShadow;
+}
+
+.container.reservedBody {
+  padding: 2em;
+  background-color: $gray-200;
+  border-radius: 0.5em;
+  box-shadow: $basicBoxShadow;
+}

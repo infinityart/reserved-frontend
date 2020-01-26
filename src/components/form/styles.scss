@@ -1,0 +1,9 @@
+.formStepControls{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4em;
+
+  button:only-child {
+    margin-left: auto;
+  }
+}

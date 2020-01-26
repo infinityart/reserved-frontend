@@ -21,17 +21,17 @@ class ReservedLayout extends React.Component {
                 backdrop={'static'}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="example-custom-modal-styling-title">
+                    <Modal.Title>
                         Reserved - An appointment is just some clicks away
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Container>
+                    <Container className={"reservedBody"}>
                         {this.props.children}
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="danger" onClick={() => this.toggleReserved()}>Cancel appointment</Button>
+                    <Button variant="outline-danger" onClick={() => this.toggleReserved()}>Cancel appointment</Button>
                 </Modal.Footer>
             </Modal>
         );
