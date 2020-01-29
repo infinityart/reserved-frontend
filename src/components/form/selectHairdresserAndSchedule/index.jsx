@@ -1,25 +1,19 @@
 import React from "react";
 import './styles.scss';
 import Button from "react-bootstrap/Button";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faCaretLeft} from '@fortawesome/free-solid-svg-icons'
-import {faCaretRight} from '@fortawesome/free-solid-svg-icons'
-import TimeTable from "./timetable";
+import Calendar from "./calendar";
 
 class AppointmentSelector extends React.Component {
 
     constructor(props) {
         super(props);
 
-        let today = new Date();
-
         this.state = {
             hairdressers: [],
             hairdresserAppointments: [],
-            selectedDate: today,
+            selectedDate: new Date(),
             selectedHairdresser: null,
-            selectedTime: null
-        }
+        };
     }
 
     componentDidMount() {
@@ -41,15 +35,15 @@ class AppointmentSelector extends React.Component {
     }
 
     getHairdressersAppointmentsByDate() {
-        let today = this.state.selectedDate;
+        let selectedDate = this.state.selectedDate;
 
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        let yyyy = today.getFullYear();
+        let dd = String(selectedDate.getDate()).padStart(2, '0');
+        let mm = String(selectedDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = selectedDate.getFullYear();
 
-        today = `${dd}-${mm}-${yyyy}`;
+        selectedDate = `${dd}-${mm}-${yyyy}`;
 
-        fetch(`${APIEndpoint}/hairdressers/appointments?date=${today}`)
+        fetch(`${APIEndpoint}/hairdressers/appointments?date=${selectedDate}`)
             .then((response) => {
                 return response.json();
             })
@@ -61,40 +55,12 @@ class AppointmentSelector extends React.Component {
             });
     };
 
-    changeDay = (direction) => {
-        let day;
-        let selectedDate = this.state.selectedDate;
-
-        if (direction === 'up') {
-            day = selectedDate.getDate() + 1;
-        } else {
-            day = selectedDate.getDate() - 1;
-        }
-
-        selectedDate.setDate(day);
-
-        this.setState({selectedDate: selectedDate, selectedTime: null});
-        this.getHairdressersAppointmentsByDate();
-    };
-
-    changeMonth = (direction) => {
-        let month;
-        let selectedDate = this.state.selectedDate;
-
-        if (direction === 'up') {
-            month = selectedDate.getMonth() + 1;
-        } else {
-            month = selectedDate.getMonth() - 1;
-        }
-
-        selectedDate.setMonth(month);
-
-        this.setState({selectedDate: selectedDate, selectedTime: null});
-        this.getHairdressersAppointmentsByDate();
-    };
-
     setSelectHairdresser = hairdresser => this.setState({selectedHairdresser: hairdresser});
-    setSelectedTime = time => this.setState({selectedTime: time});
+
+    setSelectedDate = (selectedDate) => {
+        this.setState({selectedDate});
+        this.getHairdressersAppointmentsByDate();
+    };
 
     render() {
         if (!this.props.display) return <React.Fragment/>;
@@ -106,10 +72,11 @@ class AppointmentSelector extends React.Component {
                     <div className="hairdressers">
                         {this.state.hairdressers.map((hairdresser, idx) => {
                             let selected = this.state.selectedHairdresser == hairdresser;
-                            let selectedClass  = selected ? 'selected' : '';
+                            let selectedClass = selected ? 'selected' : '';
 
                             return (
-                                <div className={"hairdresser " + selectedClass} key={idx} onClick={() => this.setSelectHairdresser(hairdresser)}>
+                                <div className={"hairdresser " + selectedClass} key={idx}
+                                     onClick={() => this.setSelectHairdresser(hairdresser)}>
                                     <div className="avatarContainer">
                                         <div className="avatar"></div>
                                     </div>
@@ -120,29 +87,7 @@ class AppointmentSelector extends React.Component {
                             );
                         })}
                     </div>
-                    <div className="calendar">
-                        <div className="dateSelection">
-                            <div className="month">
-                                <FontAwesomeIcon icon={faCaretLeft} onClick={() => {
-                                    this.changeMonth('down')
-                                }}/>
-                                Maand: {String(this.state.selectedDate.getMonth() + 1).padStart(2, '0')}
-                                <FontAwesomeIcon icon={faCaretRight} onClick={() => {
-                                    this.changeMonth('up')
-                                }}/>
-                            </div>
-                            <div className="day">
-                                <FontAwesomeIcon icon={faCaretLeft} onClick={() => {
-                                    this.changeDay('down')
-                                }}/>
-                                Dag: {String(this.state.selectedDate.getDate()).padStart(2, '0')}
-                                <FontAwesomeIcon icon={faCaretRight} onClick={() => {
-                                    this.changeDay('up')
-                                }}/>
-                            </div>
-                        </div>
-                        <TimeTable setSelectedTime={this.setSelectedTime} selectedTime={this.state.selectedTime}/>
-                    </div>
+                    <Calendar selectedDate={this.state.selectedDate} setSelectedDate={this.setSelectedDate} />
                 </div>
                 <div className="formStepControls">
                     <Button onClick={this.props.previousStep} variant="outline-primary">Vorige</Button>
