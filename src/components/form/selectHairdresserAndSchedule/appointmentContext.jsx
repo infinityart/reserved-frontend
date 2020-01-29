@@ -4,9 +4,12 @@ export const appointment = {
     selectedDate: new Date(),
     selectedHairdresser: null,
     selectedTime: null,
+    timetable: null,
     setSelectHairdresser: () => {},
     setSelectedDate: () => {},
-    setSelectedTime: () => {}
+    setSelectedTime: () => {},
+    setTimetable: () => {},
+    resetData: () => {}
 };
 
 export const AppointmentContext = React.createContext(

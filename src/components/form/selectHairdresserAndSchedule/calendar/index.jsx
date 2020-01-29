@@ -2,7 +2,7 @@ import React from "react";
 import "./styles.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretLeft, faCaretRight} from "@fortawesome/free-solid-svg-icons";
-import { AppointmentContext} from "../appointmentContext";
+import {AppointmentContext} from "../appointmentContext";
 
 class Calendar extends React.Component {
     static contextType = AppointmentContext;
@@ -19,6 +19,10 @@ class Calendar extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.initTimetable();
+    }
+
     changeDay = (direction) => {
         let day;
         let selectedDate = this.context.selectedDate;
@@ -32,7 +36,7 @@ class Calendar extends React.Component {
         selectedDate.setDate(day);
 
         this.context.setSelectedDate(selectedDate);
-        this.context.setSelectedTime(null);
+        this.context.resetData();
     };
 
     changeMonth = (direction) => {
@@ -48,33 +52,43 @@ class Calendar extends React.Component {
         selectedDate.setMonth(month);
 
         this.context.setSelectedDate(selectedDate);
-        this.context.setSelectedTime(null);
+        this.context.resetData();
     };
 
-    renderTime() {
+    initTimetable() {
         let currentTime = this.state.startTime;
-        let idx = 1;
-        let times = [];
+        let timetable = [];
 
         while (currentTime.getHours() !== this.state.endTime) {
-            let timeString = `${String(currentTime.getHours()).padStart(2, '0')}:${String(currentTime.getMinutes()).padStart(2, '0')}`;
-            let selected = this.context.selectedTime == timeString ? 'selected' : '';
+            let timeSlotString = `${String(currentTime.getHours()).padStart(2, '0')}:${String(currentTime.getMinutes()).padStart(2, '0')}`;
+            let timeSlot = {timeSlot: timeSlotString, available: true};
 
-            let time =
-                <div className={"time " + selected} key={idx}
-                     onClick={() => this.context.setSelectedTime( timeString)}>
-                    {timeString}
-                </div>
-            ;
-
-            times.push(time);
+            timetable.push(timeSlot);
             currentTime.setMinutes(currentTime.getMinutes() + 15);
-            idx++;
         }
 
-        currentTime = currentTime.setHours(9);
+        this.context.setTimetable(timetable);
+    }
 
-        return times;
+    renderTime() {
+        if(!this.context.timetable) return;
+
+        return this.context.timetable.map((timeSlot, idx) => {
+            let selected = '';
+
+            if(this.context.selectedTime) {
+                selected = this.context.selectedTime.timeSlot == timeSlot.timeSlot ? 'selected' : '';
+            }
+
+            let unavailable = timeSlot.available ? '' : 'unavailable';
+
+            return (
+                <div className={`time ${selected} ${unavailable}`} key={idx}
+                     onClick={() => this.context.setSelectedTime(timeSlot)}>
+                    {timeSlot.timeSlot}
+                </div>
+            );
+        });
     }
 
     render() {

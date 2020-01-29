@@ -32,7 +32,9 @@ class StepSelector extends React.Component {
 
         appointmentData[dataType] = data;
 
-        this.setState({appointmentData});
+        this.setState({appointmentData}, () => {
+            console.log(this.state.appointmentData)
+        });
     };
 
     render() {
@@ -45,8 +47,8 @@ class StepSelector extends React.Component {
         return (
             <React.Fragment>
                 <form>
-                    <SelectTreatments display={this.state.step === 0} {...props} />
-                    <AppointmentSelector display={this.state.step === 1} {...props} />
+                    <SelectTreatments display={this.state.step === INITIAL_STEP} {...props} />
+                    <AppointmentSelector display={this.state.step === SECOND_STEP} {...props} />
                 </form>
             </React.Fragment>
         )
