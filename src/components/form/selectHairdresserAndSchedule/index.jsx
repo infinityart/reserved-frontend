@@ -2,6 +2,7 @@ import React from "react";
 import './styles.scss';
 import Button from "react-bootstrap/Button";
 import Calendar from "./calendar";
+import { AppointmentContext} from "./appointmentContext";
 
 class AppointmentSelector extends React.Component {
 
@@ -13,6 +14,10 @@ class AppointmentSelector extends React.Component {
             hairdresserAppointments: [],
             selectedDate: new Date(),
             selectedHairdresser: null,
+            selectedTime: null,
+            setSelectHairdresser: this.setSelectHairdresser,
+            setSelectedDate: this.setSelectedDate,
+            setSelectedTime: this.setSelectedTime
         };
     }
 
@@ -48,6 +53,7 @@ class AppointmentSelector extends React.Component {
                 return response.json();
             })
             .then((data) => {
+                console.log(data.data)
                 this.setState({hairdresserAppointments: data.data});
             })
             .catch((error) => {
@@ -55,12 +61,14 @@ class AppointmentSelector extends React.Component {
             });
     };
 
-    setSelectHairdresser = hairdresser => this.setState({selectedHairdresser: hairdresser});
+    setSelectHairdresser = selectedHairdresser => this.setState({ selectedHairdresser});
 
     setSelectedDate = (selectedDate) => {
         this.setState({selectedDate});
         this.getHairdressersAppointmentsByDate();
     };
+
+    setSelectedTime = selectedTime => this.setState({selectedTime});
 
     render() {
         if (!this.props.display) return <React.Fragment/>;
@@ -87,14 +95,15 @@ class AppointmentSelector extends React.Component {
                             );
                         })}
                     </div>
-                    <Calendar selectedDate={this.state.selectedDate} setSelectedDate={this.setSelectedDate} />
+                    <AppointmentContext.Provider value={this.state}>
+                        <Calendar/>
+                    </AppointmentContext.Provider>
                 </div>
                 <div className="formStepControls">
                     <Button onClick={this.props.previousStep} variant="outline-primary">Vorige</Button>
                     <Button onClick={this.props.nextStep} variant="primary">Volgende</Button>
                 </div>
             </React.Fragment>
-
         );
     }
 }

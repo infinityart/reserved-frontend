@@ -2,8 +2,11 @@ import React from "react";
 import "./styles.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretLeft, faCaretRight} from "@fortawesome/free-solid-svg-icons";
+import { AppointmentContext} from "../appointmentContext";
 
 class Calendar extends React.Component {
+    static contextType = AppointmentContext;
+
     constructor(props) {
         super(props);
 
@@ -13,13 +16,12 @@ class Calendar extends React.Component {
         this.state = {
             startTime: startTime,
             endTime: 17,
-            selectedTime: null
         }
     }
 
     changeDay = (direction) => {
         let day;
-        let selectedDate = this.props.selectedDate;
+        let selectedDate = this.context.selectedDate;
 
         if (direction === 'up') {
             day = selectedDate.getDate() + 1;
@@ -29,13 +31,13 @@ class Calendar extends React.Component {
 
         selectedDate.setDate(day);
 
-        this.setState({ selectedTime: null});
-        this.props.setSelectedDate(selectedDate);
+        this.context.setSelectedDate(selectedDate);
+        this.context.setSelectedTime(null);
     };
 
     changeMonth = (direction) => {
         let month;
-        let selectedDate = this.props.selectedDate;
+        let selectedDate = this.context.selectedDate;
 
         if (direction === 'up') {
             month = selectedDate.getMonth() + 1;
@@ -45,11 +47,9 @@ class Calendar extends React.Component {
 
         selectedDate.setMonth(month);
 
-        this.setState({ selectedTime: null});
-        this.props.setSelectedDate(selectedDate);
+        this.context.setSelectedDate(selectedDate);
+        this.context.setSelectedTime(null);
     };
-
-    setSelectedTime = time => this.setState({selectedTime: time});
 
     renderTime() {
         let currentTime = this.state.startTime;
@@ -58,10 +58,11 @@ class Calendar extends React.Component {
 
         while (currentTime.getHours() !== this.state.endTime) {
             let timeString = `${String(currentTime.getHours()).padStart(2, '0')}:${String(currentTime.getMinutes()).padStart(2, '0')}`;
-            let selected = this.state.selectedTime == timeString ? 'selected' : '';
+            let selected = this.context.selectedTime == timeString ? 'selected' : '';
 
             let time =
-                <div className={"time " + selected} key={idx} onClick={() => this.setSelectedTime(timeString)}>
+                <div className={"time " + selected} key={idx}
+                     onClick={() => this.context.setSelectedTime( timeString)}>
                     {timeString}
                 </div>
             ;
@@ -84,7 +85,7 @@ class Calendar extends React.Component {
                         <FontAwesomeIcon icon={faCaretLeft} onClick={() => {
                             this.changeMonth('down')
                         }}/>
-                        Maand: {String(this.props.selectedDate.getMonth() + 1).padStart(2, '0')}
+                        Maand: {String(this.context.selectedDate.getMonth() + 1).padStart(2, '0')}
                         <FontAwesomeIcon icon={faCaretRight} onClick={() => {
                             this.changeMonth('up')
                         }}/>
@@ -93,7 +94,7 @@ class Calendar extends React.Component {
                         <FontAwesomeIcon icon={faCaretLeft} onClick={() => {
                             this.changeDay('down')
                         }}/>
-                        Dag: {String(this.props.selectedDate.getDate()).padStart(2, '0')}
+                        Dag: {String(this.context.selectedDate.getDate()).padStart(2, '0')}
                         <FontAwesomeIcon icon={faCaretRight} onClick={() => {
                             this.changeDay('up')
                         }}/>
