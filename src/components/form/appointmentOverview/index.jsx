@@ -28,6 +28,7 @@ class AppointmentOverview extends React.Component {
         let headers = new Headers();
 
         headers.append('Content-Type', 'application/json');
+        headers.append('Accept', '*');
 
         fetch(`${APIEndpoint}/appointment`, {
                 method: 'POST',
