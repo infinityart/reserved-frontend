@@ -1,11 +1,12 @@
 import React from "react";
-import SelectTreatments from "./selectTreatments";
-import Button from "react-bootstrap/Button";
 import './styles.scss';
+import SelectTreatments from "./selectTreatments";
 import AppointmentSelector from "./selectHairdresserAndSchedule";
+import UserData from "./userData";
 
 const INITIAL_STEP = 0;
 const SECOND_STEP = 1;
+const THIRD_STEP = 2;
 
 class StepSelector extends React.Component {
 
@@ -20,11 +21,11 @@ class StepSelector extends React.Component {
     }
 
     nextStep = () => {
-        this.setState({step: this.state.step + 1})
+        this.setState({ step: this.state.step + 1 })
     };
 
     previousStep = () => {
-        this.setState({step: this.state.step - 1})
+        this.setState({ step: this.state.step - 1 })
     };
 
     setData = (dataType, data) => {
@@ -32,7 +33,7 @@ class StepSelector extends React.Component {
 
         appointmentData[dataType] = data;
 
-        this.setState({appointmentData}, () => {
+        this.setState({ appointmentData }, () => {
             console.log(this.state.appointmentData)
         });
     };
@@ -46,10 +47,9 @@ class StepSelector extends React.Component {
 
         return (
             <React.Fragment>
-                <form>
-                    <SelectTreatments display={this.state.step === INITIAL_STEP} {...props} />
-                    <AppointmentSelector display={this.state.step === SECOND_STEP} {...props} />
-                </form>
+                <SelectTreatments display={this.state.step === INITIAL_STEP} {...props} />
+                <AppointmentSelector display={this.state.step === SECOND_STEP} {...props} />
+                <UserData display={this.state.step === THIRD_STEP} {...props} />
             </React.Fragment>
         )
     }

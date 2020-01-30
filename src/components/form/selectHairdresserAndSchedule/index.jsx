@@ -33,10 +33,6 @@ class AppointmentSelector extends React.Component {
         this.getHairdressersAppointmentsByDate();
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-
-    }
-
     setTimetable = timetable => {
         this.setState({timetable})
     };
