@@ -18,7 +18,7 @@ class Reserved extends React.Component {
 
         return (
             <ReservedLayout showReserved={this.showReserved} toggleReserved={this.toggleReserved}>
-                <StepSelector />
+                <StepSelector toggleReserved={this.toggleReserved} />
             </ReservedLayout>
         );
     }

@@ -19,9 +19,7 @@ class Index extends React.Component {
 
     getTreatmentList() {
         fetch(`${APIEndpoint}/treatments`)
-            .then((response) => {
-                return response.json();
-            })
+            .then((response) => response.json())
             .then((data) => {
                 data.data.forEach(treatment => treatment.selected = false);
 

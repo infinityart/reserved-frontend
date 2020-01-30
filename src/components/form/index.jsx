@@ -3,10 +3,13 @@ import './styles.scss';
 import SelectTreatments from "./selectTreatments";
 import AppointmentSelector from "./selectHairdresserAndSchedule";
 import UserData from "./userData";
+import {AppointmentDataContext} from "./appointmentDataContext";
+import AppointmentOverview from "./appointmentOverview";
 
 const INITIAL_STEP = 0;
 const SECOND_STEP = 1;
 const THIRD_STEP = 2;
+const FINAL_STEP = 3;
 
 class StepSelector extends React.Component {
 
@@ -14,7 +17,6 @@ class StepSelector extends React.Component {
         super(props);
 
         this.state = {
-            showReserved: false,
             appointmentData: {},
             step: 0
         }
@@ -50,6 +52,9 @@ class StepSelector extends React.Component {
                 <SelectTreatments display={this.state.step === INITIAL_STEP} {...props} />
                 <AppointmentSelector display={this.state.step === SECOND_STEP} {...props} />
                 <UserData display={this.state.step === THIRD_STEP} {...props} />
+                <AppointmentDataContext.Provider value={this.state.appointmentData}>
+                    <AppointmentOverview display={this.state.step === FINAL_STEP} previousStep={this.previousStep} toggleReserved={this.props.toggleReserved}/>
+                </AppointmentDataContext.Provider>
             </React.Fragment>
         )
     }

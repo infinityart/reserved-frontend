@@ -12,10 +12,13 @@ class AppointmentSelector extends React.Component {
     constructor(props) {
         super(props);
 
+        let tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
         this.state = {
             hairdressers: [],
             hairdresserAppointments: [],
-            selectedDate: new Date(),
+            selectedDate: tomorrow,
             selectedHairdresser: null,
             selectedTime: null,
             timetable: null,
@@ -94,9 +97,7 @@ class AppointmentSelector extends React.Component {
 
     getHairdressers() {
         fetch(`${APIEndpoint}/hairdressers`)
-            .then((response) => {
-                return response.json();
-            })
+            .then((response) => response.json())
             .then((data) => {
                 data.data.forEach(hairdresser => hairdresser.available = true);
 
